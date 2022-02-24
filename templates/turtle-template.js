@@ -26,43 +26,43 @@ document.body.innerHTML = `
 
 class Turtle {
   constructor(canvas) {
-    this._drawing = true;
-    this._location = { x: 0, y: 0 };
-    this._angle = 0;
-    this._size = 1;
-    this._color = "black";
+    this.drawing = true;
+    this.location = { x: 0, y: 0 };
+    this.angle = 0;
+    this.size = 1;
+    this.color = "black";
 
     this._ctx = canvas.getContext("2d");
   }
 
   up() {
-    this._drawing = false;
+    this.drawing = false;
 
     return this;
   }
 
   down() {
-    this._drawing = true;
+    this.drawing = true;
 
     return this;
   }
 
   goto(x, y) {
     
-    if (this._drawing) {
-      this._ctx.lineWidth = this._size === 0 ? 0.000000001 : this._size;
-      this._ctx.strokeStyle = this._color;
-      this._ctx.fillStyle = this._color;
+    if (this.drawing) {
+      this._ctx.lineWidth = this.size === 0 ? 0.000000001 : this.size;
+      this._ctx.strokeStyle = this.color;
+      this._ctx.fillStyle = this.color;
       
       this._ctx.beginPath();
-      this._ctx.moveTo(this._location.x, this._location.y)
+      this._ctx.moveTo(this.location.x, this.location.y)
       this._ctx.lineTo(x, y);
       this._ctx.stroke();
 
-      const radius = this._size/2;
+      const radius = this.size/2;
 
       this._ctx.beginPath();
-      this._ctx.arc(this._location.x, this._location.y, radius, 0, Math.PI * 2, true);
+      this._ctx.arc(this.location.x, this.location.y, radius, 0, Math.PI * 2, true);
       this._ctx.fill();
       
       this._ctx.beginPath();
@@ -70,14 +70,14 @@ class Turtle {
       this._ctx.fill();
     }
 
-    this._location = { x, y };
+    this.location = { x, y };
     
     return this;
   }
 
   forward(distance) {
-    const last = this._location;
-    const a = this._angle/180 * Math.PI;
+    const last = this.location;
+    const a = this.angle/180 * Math.PI;
     const x = last.x + distance * Math.cos(a);
     const y = last.y + distance * Math.sin(a);
 
@@ -91,7 +91,7 @@ class Turtle {
     
     const length = radius*theta/180*Math.PI;
 
-    const ogAngle = this._angle;
+    const ogAngle = this.angle;
     const thetaStep = 1;
     const steps = theta/thetaStep;
     const distanceStep = length/steps;
@@ -109,31 +109,31 @@ class Turtle {
   }
 
   setAngle(theta) {
-    this._angle = theta;
+    this.angle = theta;
 
     return this;
   }
 
   right(theta) {
-    this._angle += theta;
+    this.angle += theta;
 
     return this;
   }
 
   left(theta) {
-    this._angle -= theta;
+    this.angle -= theta;
 
     return this;
   }
 
-  setSize(size) {
-    this._size = size >= 0 ? size : 0;
+  setSize(newSize) {
+    this.size = newSize >= 0 ? newSize : 0;
 
     return this;
   }
 
   setColor(newColor) {
-    this._color = newColor;
+    this.color = newColor;
     
     return this;
   }
