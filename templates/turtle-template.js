@@ -125,7 +125,7 @@ class Turtle {
     c.fillStyle = this.color; 
     c.beginPath();
     const [first, ...rest] = this._fillArray;
-    console.log("pts", first, rest);
+
     c.moveTo(first.x, first.y);
     rest.forEach(p => c.lineTo(p.x, p.y));
     c.fill();
