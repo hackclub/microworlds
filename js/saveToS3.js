@@ -1,4 +1,5 @@
 import md5 from "https://cdn.skypack.dev/md5";
+import { getURLPath } from "./getURLPath.js";
 
 export async function saveToS3(content) {
   const uniqueID = md5(JSON.stringify(content));
@@ -16,7 +17,7 @@ export async function saveToS3(content) {
     });
   }
 
-  const link = `${window.location.origin}/?id=${id}`;
+  const link = getURLPath(`?id=${id}`);
 
   return link;
 }

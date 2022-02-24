@@ -2,6 +2,7 @@ import { html, render, svg } from "https://unpkg.com/lit-html@2.0.1/lit-html.js"
 import { view } from "./view.js";
 import { init, initSandbox } from "./init.js";
 import { saveToS3 } from "./saveToS3.js";
+import { getURLPath } from "./getURLPath.js";
 
 function copy(str) {
 	const inp = document.createElement('input');
@@ -20,8 +21,8 @@ function showShared() {
 
 const STATE = {
 	codemirror: undefined,
-	template: `${window.location.origin}/templates/turtle-template.js`,
-	documentation: `${window.location.origin}/templates/turtle-template.md`,
+	template: getURLPath("templates/turtle-template.js"),
+	documentation: getURLPath("templates/turtle-template.md"),
 	examples: [],
 	notifications: [],
 	error: false,
