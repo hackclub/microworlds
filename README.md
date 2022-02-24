@@ -1,5 +1,11 @@
 # TODO
 
+- add color table
+  - color
+  - shade
+  - mixing
+- startFill
+- endFill
 - [x] add aws share links
   - [] give option to share share link on slack in notification
 - [] make documentation for turtle workshop

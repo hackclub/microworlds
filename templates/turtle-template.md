@@ -43,24 +43,17 @@ See if you can make this pattern:
 
 ## Useful Snippets
 
-Dynamically changing color:
+Change color:
 
 ```js
-const w = 509;
-const h = 579;
-
-setCanvasSize(w, h);
+setCanvasSize(300, 300);
 fillScreen("white");
 
-const t = createTurtle(0, 240);
+const t = createTurtle(0, 150);
 
-t.setSize(88);
-
-for (let i = 0; i < 111; i += 1) {
-  t.setColor(`hsl(${i*3.6}, ${95}%, ${59}%)`)
-  t.forward(i/10);
-}
+t.setSize(30);
+t.setColor(`hsla(${66}, ${104}%, ${70}%, ${84}%)`);
 ```
 
-![rainbow](https://cloud-nz939dvbi-hack-club-bot.vercel.app/0screen_shot_2022-02-24_at_10.27.44_am.png)
+
 

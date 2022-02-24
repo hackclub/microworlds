@@ -39,6 +39,7 @@ class Turtle {
     this.color = "black";
     this.strokeType = "round";
 
+    this._fillArray = [];
     this._ctx = canvas.getContext("2d");
   }
 
@@ -104,8 +105,31 @@ class Turtle {
       }
     }
 
+
     this.location = { x, y };
+    this._fillArray.push(this.location);
     
+    return this;
+  }
+
+  startFill() {
+    this._fillArray = [this.location];
+
+    return this;
+  }
+
+  endFill() {
+    if (this._fillArray.length <= 1) return
+
+    const c = this._ctx;
+    c.fillStyle = this.color; 
+    c.beginPath();
+    const [first, ...rest] = this._fillArray;
+    console.log("pts", first, rest);
+    c.moveTo(first.x, first.y);
+    rest.forEach(p => c.lineTo(p.x, p.y));
+    c.fill();
+
     return this;
   }
 
