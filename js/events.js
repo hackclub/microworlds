@@ -165,7 +165,7 @@ export function events(state) {
 	bodyListener("keydown", "", function(event) {
 		let code = event.code;
 
-    window.localStorage.setItem("cm-prog", dispatch("GET_SAVE_STATE"));
+    window.localStorage.setItem("live-editor-templates", dispatch("GET_SAVE_STATE"));
     
 		// console.log(code, event);
 		if (code === "Enter" && event.shiftKey) {

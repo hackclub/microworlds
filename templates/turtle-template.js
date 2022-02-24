@@ -87,12 +87,29 @@ class Turtle {
   }
 
   arc(angle, radius) {
+    const theta = Math.abs(angle);
     
+    const length = radius*theta/180*Math.PI;
+
+    const ogAngle = this._angle;
+    const thetaStep = 1;
+    const steps = theta/thetaStep;
+    const distanceStep = length/steps;
+
+    for (let i = 0; i < steps; i++) {
+      if (angle >= 0) this.right(thetaStep);
+      else this.left(thetaStep);
+
+      this.forward(distanceStep);
+    }
+
+    this.setAngle(ogAngle + theta);
+
     return this;
   }
 
   setAngle(theta) {
-    this._angle = angle;
+    this._angle = theta;
 
     return this;
   }

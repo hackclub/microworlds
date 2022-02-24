@@ -33,14 +33,21 @@ export function initSandbox(templateAddress) {
 	sandbox.src = URL.createObjectURL(blob);
 }
 
-export function init(state) {
+async function loadFromS3(id) {
 
-	const url = new URL(window.location.href);
+  const url = `https://project-bucket-hackclub.s3.eu-west-1.amazonaws.com/${id}.json`;
+  const saved = await fetch(url, { mode: "cors" }).then((r) => r.json());
+
+  return JSON.stringify(saved);
+}
+
+export function init(state) {
 
 	const search = window.location.search;
 	const code = new URLSearchParams(search).get("code");
 	const file = new URLSearchParams(search).get("file");
 	const vert = new URLSearchParams(search).get("vert");
+	const id = new URLSearchParams(search).get("id");
 
 	if (vert) document.documentElement.style.setProperty("--vertical-bar", `${vert}%`);
 
@@ -63,7 +70,16 @@ export function init(state) {
 			}));
 
 		
+	} else if (id) {
+
+		(async () => {
+			const stateString = await loadFromS3(id);
+
+			dispatch("SET_SAVE_STATE", { stateString });
+		})();
+		
 	} else { // else load default
+
 		state.codemirror.view.dispatch({
 			changes: { from: 0, insert: defaultProg.trim() }
 		});
@@ -71,7 +87,7 @@ export function init(state) {
 		// dispatch("RUN");
 	}
 
-	const saved = window.localStorage.getItem("cm-prog");
+	const saved = window.localStorage.getItem("live-editor-templates");
 	
 	if (saved) { // give option to load saved in notification
 		dispatch("NOTIFICATION", { message: html`
@@ -80,9 +96,7 @@ export function init(state) {
 		`});
 
 		// helpful during dev
-
-		dispatch("SET_SAVE_STATE", { stateString: saved });
-		// dispatch("RUN");
+		// dispatch("SET_SAVE_STATE", { stateString: saved });
 	}
 
 }

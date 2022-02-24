@@ -1,6 +1,7 @@
 import { html, render, svg } from "https://unpkg.com/lit-html@2.0.1/lit-html.js";
 import { view } from "./view.js";
 import { init, initSandbox } from "./init.js";
+import { saveToS3 } from "./saveToS3.js";
 
 function copy(str) {
 	const inp = document.createElement('input');
@@ -19,8 +20,8 @@ function showShared() {
 
 const STATE = {
 	codemirror: undefined,
-	template: `${window.location.href}templates/turtle-template.js`,
-	documentation: `${window.location.href}templates/turtle-template.md`,
+	template: `${window.location.origin}/templates/turtle-template.js`,
+	documentation: `${window.location.origin}/templates/turtle-template.md`,
 	examples: [],
 	notifications: [],
 	error: false,
@@ -35,6 +36,7 @@ const STATE = {
 };
 
 window.addEventListener("message", e => {
+	console.error(e.data);
 
 	const location = e.data.stack.match(/<anonymous>:(.+)\)/)[1];
 	let [ line, col ] = location.split(":").map(Number);
@@ -62,21 +64,30 @@ const ACTIONS = {
 		dispatch("RENDER");
 
 	},
-	SHARE({type}, state) {
+	SHARE: async function ({type}, state) {
 		const string = state.codemirror.view.state.doc.toString();
 
 		// TODO: share with aws link
+		const link = await saveToS3(dispatch("GET_SAVE_STATE"));
 
+		copy(link);
+		dispatch("NOTIFICATION", {
+			message: html`
+				A sharing link has been copied to your clipboard. 
+				<button @click=${() => copy(link)}>Click here to recopy.</button>
+			`,
+			timeout: 4000
+		})
 	},
 	GET_SAVE_STATE(args, state) {
 		const string = state.codemirror.view.state.doc.toString();
 
 		const stateString = JSON.stringify({
 			name: state.name,
+			version: state.version,
 			program: string,
 			documentation: state.documentation,
 			template: state.template,
-			version: state.version
 		})
 
 		return stateString;
@@ -85,10 +96,12 @@ const ACTIONS = {
 		const { name, program, documentation, template, version } = JSON.parse(stateString);
 
 		state.name = name;
-		state.version = version;
+		state.version = version ?? state.version;
 		state.documentation = documentation;
-		state.template = template; // have to reinit iframe;
-		initSandbox(state.template);
+		state.template = template; 
+
+		// have to reinit iframe;
+		initSandbox(state.template); // TODO
 
 		const string = state.codemirror.view.state.doc.toString();
 		state.codemirror.view.dispatch({
@@ -105,10 +118,19 @@ const ACTIONS = {
 		const docs = document.querySelector(".docs");
   	docs.classList.toggle("hide-docs");
 	},
-	NOTIFICATION({ message }, state) {
+	NOTIFICATION({ message, timeout }, state) {
 		state.notifications = [message, ...state.notifications];
 
     dispatch("RENDER");
+
+    // open the docs bar for timeout time
+    if (!timeout) return;
+    const docs = document.querySelector(".docs");
+
+    docs.classList.remove("hide-docs");
+    setTimeout(() => {
+    	docs.classList.add("hide-docs");
+    }, timeout)
   },
 	RENDER() {
 		render(view(STATE), document.getElementById("root"));
@@ -116,7 +138,6 @@ const ACTIONS = {
 }
 
 export function dispatch(action, args = {}) {
-	console.log(action);
 
 	const trigger = ACTIONS[action];
 	if (trigger) return trigger(args, STATE);

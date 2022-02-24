@@ -11,7 +11,7 @@ const fileName = state => html`
 		type="text" 
 		.placeholder=${state.name} 
 		@keyup=${e => { 
-      		state.name = e.target.value === "" ? "anon" : e.target.value 
+      		state.name = e.target.value === "" ? "name-here" : e.target.value 
     }}>
   </input>
 `

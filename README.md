@@ -1,19 +1,20 @@
 # TODO
 
-- [] add aws share links
+- [x] add aws share links
   - [] give option to share share link on slack in notification
 - [] make documentation for turtle workshop
 - [] make examples for turtle workshop
-- [] add reload
-  - [x] file upload
-  - [x] cached
-  - [] share links
   
-- [] add turtle arc
-
+- [x] add turtle arc
+  - make it faster
 - [x] add save
 - [x] add markdown pop-out
 - [x] add share modal
+- [x] add reload
+  - [x] file upload
+  - [x] cached
+  - [x] share links
+- [x] fix sandbox init
 - [x] redo toolbar ui
   - [] add icons
 - [x] add versioning
