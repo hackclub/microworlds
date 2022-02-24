@@ -77,7 +77,7 @@ const ACTIONS = {
 				A sharing link has been copied to your clipboard. 
 				<button @click=${() => copy(link)}>Click here to recopy.</button>
 			`,
-			timeout: 4000
+			open: true
 		})
 	},
 	GET_SAVE_STATE(args, state) {
@@ -119,19 +119,23 @@ const ACTIONS = {
 		const docs = document.querySelector(".docs");
   	docs.classList.toggle("hide-docs");
 	},
-	NOTIFICATION({ message, timeout }, state) {
+	NOTIFICATION({ message, timeout, open }, state) {
 		state.notifications = [message, ...state.notifications];
 
     dispatch("RENDER");
 
     // open the docs bar for timeout time
-    if (!timeout) return;
     const docs = document.querySelector(".docs");
+    
+    if (open) docs.classList.remove("hide-docs");
 
-    docs.classList.remove("hide-docs");
-    setTimeout(() => {
-    	docs.classList.add("hide-docs");
-    }, timeout)
+    if (timeout) {
+	    docs.classList.remove("hide-docs");
+	    setTimeout(() => {
+	    	docs.classList.add("hide-docs");
+	    }, timeout)
+    };
+
   },
 	RENDER() {
 		render(view(STATE), document.getElementById("root"));
