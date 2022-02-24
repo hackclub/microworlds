@@ -65,9 +65,19 @@ class Turtle {
     if (this.drawing) {
       this._ctx.lineWidth = this.size === 0 ? 0.000000001 : this.size;
       this._ctx.strokeStyle = this.color;
-      this._ctx.fillStyle = this.color;
+      this._ctx.fillStyle = this.color; 
 
-      const normVec = norm([ x - this.location.x, y - this.location.y ]);
+      const dx = x - this.location.x;
+      const dy = y - this.location.y;
+
+      // const angle = Math.atan2(dy/dx);
+      // // const corner
+
+      // const corner0 = [
+      //   this.location.x 
+      // ]
+
+      const normVec = norm([ dx, dy ]);
       const backtrack = this.strokeType === "flat" ? -5 : 0;
       
       this._ctx.beginPath();
@@ -75,7 +85,10 @@ class Turtle {
         this.location.x + normVec[0] * backtrack, 
         this.location.y + normVec[1] * backtrack
       )
-      this._ctx.lineTo(x, y);
+      this._ctx.lineTo(
+        x, 
+        y
+      );
       this._ctx.stroke();
 
       if (this.strokeType === "round") {
