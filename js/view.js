@@ -65,6 +65,10 @@ const renderDocs = state => html`
 		      overflow: scroll;
 		      line-height: 1.5em;
 		    }
+
+		    img {
+		    	width: 300px;
+		    }
     	</style>
     </convert-md>
 	</div>

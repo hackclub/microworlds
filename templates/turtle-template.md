@@ -32,3 +32,35 @@ That's every command you need to learn.
 
 With just a few of them you can make amazing patterns like this:
 
+![pattern](https://cloud-kqt6eg66r-hack-club-bot.vercel.app/0screen_shot_2022-02-24_at_10.20.46_am.png)
+
+## Challenges
+
+See if you can make this pattern:
+
+![squiral](https://cloud-iv130nu4p-hack-club-bot.vercel.app/0screen_shot_2022-02-24_at_10.23.00_am.png)
+
+
+## Useful Snippets
+
+Dynamically changing color:
+
+```js
+const w = 509;
+const h = 579;
+
+setCanvasSize(w, h);
+fillScreen("white");
+
+const t = createTurtle(0, 240);
+
+t.setSize(88);
+
+for (let i = 0; i < 111; i += 1) {
+  t.setColor(`hsl(${i*3.6}, ${95}%, ${59}%)`)
+  t.forward(i/10);
+}
+```
+
+![rainbow](https://cloud-nz939dvbi-hack-club-bot.vercel.app/0screen_shot_2022-02-24_at_10.27.44_am.png)
+

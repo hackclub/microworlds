@@ -24,6 +24,12 @@ document.body.innerHTML = `
   </main>
 `
 
+const norm = vec => {
+  const mag = Math.sqrt(vec[0]**2 + vec[1]**2);
+
+  return [vec[0]/mag, vec[1]/mag];
+}
+
 class Turtle {
   constructor(canvas) {
     this.drawing = true;
@@ -31,6 +37,7 @@ class Turtle {
     this.angle = 0;
     this.size = 1;
     this.color = "black";
+    this.strokeType = "round";
 
     this._ctx = canvas.getContext("2d");
   }
@@ -47,27 +54,41 @@ class Turtle {
     return this;
   }
 
+  setStrokeType(type) { // round | flat
+    this.strokeType = type;
+
+    return this;
+  }
+
   goto(x, y) {
     
     if (this.drawing) {
       this._ctx.lineWidth = this.size === 0 ? 0.000000001 : this.size;
       this._ctx.strokeStyle = this.color;
       this._ctx.fillStyle = this.color;
+
+      const normVec = norm([ x - this.location.x, y - this.location.y ]);
+      const backtrack = this.strokeType === "flat" ? -5 : 0;
       
       this._ctx.beginPath();
-      this._ctx.moveTo(this.location.x, this.location.y)
+      this._ctx.moveTo(
+        this.location.x + normVec[0] * backtrack, 
+        this.location.y + normVec[1] * backtrack
+      )
       this._ctx.lineTo(x, y);
       this._ctx.stroke();
 
-      const radius = this.size/2;
+      if (this.strokeType === "round") {
+        const radius = this.size/2;
 
-      this._ctx.beginPath();
-      this._ctx.arc(this.location.x, this.location.y, radius, 0, Math.PI * 2, true);
-      this._ctx.fill();
-      
-      this._ctx.beginPath();
-      this._ctx.arc(x, y, radius, 0, Math.PI * 2, true);
-      this._ctx.fill();
+        this._ctx.beginPath();
+        this._ctx.arc(this.location.x, this.location.y, radius, 0, Math.PI * 2, true);
+        this._ctx.fill();
+        
+        this._ctx.beginPath();
+        this._ctx.arc(x, y, radius, 0, Math.PI * 2, true);
+        this._ctx.fill();
+      }
     }
 
     this.location = { x, y };
