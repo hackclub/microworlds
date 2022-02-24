@@ -23,17 +23,12 @@ const STATE = {
 	codemirror: undefined,
 	template: getURLPath("templates/turtle-template.js"),
 	documentation: getURLPath("templates/turtle-template.md"),
-	examples: [],
+	// examples: [],
 	notifications: [],
 	error: false,
 	logs: [],
 	name: "name-here",
 	version: "0.0.1",
-	lastSaved: {
-		name: "",
-		text: "",
-		link: "",
-	}
 };
 
 window.addEventListener("message", e => {
@@ -126,7 +121,7 @@ const ACTIONS = {
 
     // open the docs bar for timeout time
     const docs = document.querySelector(".docs");
-    
+
     if (open) docs.classList.remove("hide-docs");
 
     if (timeout) {
