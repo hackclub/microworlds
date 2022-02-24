@@ -79,13 +79,13 @@ export function view(state) {
 			</div>
 			<div class="menu">
 				${fileName(state)}
+				<button class="menu-option menu-button" @click=${() => dispatch("DOWNLOAD")}>
+					download
+					<span class="tooltip">dowload file</span>
+				</button>
 				<button class="menu-option menu-button" @click=${() => dispatch("SHARE")}>
 					share
 					<span class="tooltip">get a sharing link</span>
-				</button>
-        <button class="menu-option menu-button" @click=${() => dispatch("DOWNLOAD")}>
-					download
-					<span class="tooltip">dowload file</span>
 				</button>
 				<button class="menu-option menu-button" @click=${() => dispatch("DOCS")}>
 					docs
