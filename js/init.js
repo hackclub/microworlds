@@ -96,7 +96,7 @@ export function init(state) {
 		`});
 
 		// helpful during dev
-		// dispatch("SET_SAVE_STATE", { stateString: saved });
+		// dispatch("SET_SA VE_STATE", { stateString: saved });
 	}
 
 }

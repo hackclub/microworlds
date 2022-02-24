@@ -26,6 +26,11 @@ t.forward(40);
 t.down(); // put down the pen so you do draw
 t.forward(30);
 
+t.startFill(); // begin tracking points to fill shape
+t.setColor("red");
+t.arc(130, 50);
+t.endFill(); // fill in shape
+
 ```
 
 That's every command you need to learn.
