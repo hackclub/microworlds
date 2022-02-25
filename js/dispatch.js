@@ -1,8 +1,8 @@
-import { html, render, svg } from "https://unpkg.com/lit-html@2.0.1/lit-html.js";
+import { html, render, svg } from "./uhtml.js";
 import { view } from "./view.js";
 import { init, initSandbox } from "./init.js";
 import { saveToS3 } from "./saveToS3.js";
-import { getURLPath } from "./getURLPath.js";
+import marked from "./marked.js";
 
 function copy(str) {
 	const inp = document.createElement('input');
@@ -21,8 +21,8 @@ function showShared() {
 
 const STATE = {
 	codemirror: undefined,
-	template: getURLPath("templates/turtle-template.js"),
-	documentation: getURLPath("templates/turtle-template.md"),
+	template: "",
+	documentation: "",
 	// examples: [],
 	notifications: [],
 	error: false,
@@ -34,12 +34,22 @@ const STATE = {
 window.addEventListener("message", e => {
 	console.error(e.data);
 
-	const location = e.data.stack.match(/<anonymous>:(.+)\)/)[1];
-	let [ line, col ] = location.split(":").map(Number);
-	line = line - 2;
+	const location = e.data.stack.match(/<anonymous>:(.+)\)/);
+	let line = null;
+	let col = null;
+
+	if (location) {
+		let lineCol = location[1].split(":").map(Number);
+		line = lineCol[0] - 2;
+		col = lineCol[1];
+	}
+
+	const msg = line && col 
+		? `${e.data.message} on line ${line} in column ${col}`
+		: e.data.message
 
 	STATE.error = true;
-	STATE.logs = [...STATE.logs, `${e.data.message} on line ${line} in column ${col}`];
+	STATE.logs = [...STATE.logs, msg];
 	dispatch("RENDER");
 });
 
@@ -89,22 +99,46 @@ const ACTIONS = {
 		return stateString;
 	},
 	SET_SAVE_STATE({ stateString }, state) {
-		const { name, program, documentation, template, version } = JSON.parse(stateString);
+		const stateObj = JSON.parse(stateString);
 
-		state.name = name;
-		state.version = version ?? state.version;
-		state.documentation = documentation;
+		console.log("setting state to", stateObj);
+
+		const { name, program, documentation, template, version, programAddress } = stateObj;
+
+		state.name = name ?? state.name;
+		// state.version = version ?? state.version; // shouldn't set version, should prompt to switch
 		state.template = template; 
 
-		// have to reinit iframe;
-		initSandbox(state.template); // TODO
+		initSandbox(state.template);
 
-		const string = state.codemirror.view.state.doc.toString();
-		state.codemirror.view.dispatch({
-			changes: { from: 0, to: string.length, insert: program }
-		});
+		if (programAddress) { // link supersedes program text
+			fetch(programAddress)
+				.then(res => res.text())
+				.then(program => {
+					const string = state.codemirror.view.state.doc.toString();
+					state.codemirror.view.dispatch({
+						changes: { from: 0, to: string.length, insert: program }
+					});
+				});
+		} else {
+			const string = state.codemirror.view.state.doc.toString();
+			state.codemirror.view.dispatch({
+				changes: { from: 0, to: string.length, insert: program }
+			});
+		}
 
-		// dispatch("RUN");
+
+		dispatch("SET_DOCUMENTATION", { address: documentation });
+	},
+	SET_DOCUMENTATION: async ({ address }, state) => {
+		state.documentation = address;
+		const res = await fetch(address);
+		const text = await res.text();
+		const convertedMd = marked(text);
+		const doc = document.querySelector(".documentation");
+  	doc.innerHTML = convertedMd;
+
+  	dispatch("RENDER")
 	},
 	DOWNLOAD: function(args, state) {
 		const string = state.codemirror.view.state.doc.toString();
@@ -133,7 +167,7 @@ const ACTIONS = {
 
   },
 	RENDER() {
-		render(view(STATE), document.getElementById("root"));
+		render(document.getElementById("root"), view(STATE));
 	}
 }
 

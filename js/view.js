@@ -1,8 +1,6 @@
-import { html } from "https://unpkg.com/lit-html@2.0.1/lit-html.js";
+import { html } from "./uhtml.js"
 import "./codemirror/codemirror-js.js";
-import "./convert-md.js";
 import { dispatch } from "./dispatch.js";
-
 
 const fileName = state => html`
 	<input
@@ -45,6 +43,18 @@ const renderDocs = state => html`
     .hide-docs .close-docs {
       display: none;
     }
+
+    .docs pre,code {
+      background: lightgrey;
+      border-radius: 3px;
+      padding: 5px;
+      overflow: scroll;
+      line-height: 1.5em;
+    }
+
+    .docs img {
+      width: 300px;
+    }
 	</style>
 	<div class="docs hide-docs">
 		<button class="close-docs" @click=${() => dispatch("DOCS")}>close</button>
@@ -55,22 +65,7 @@ const renderDocs = state => html`
       )}
     </div>
     <h3>Documentation:</h3>
-    <convert-md src=${state.documentation}>
-    	<style>
-	    	pre,
-	    	code {
-	      	background: lightgrey;
-		      border-radius: 3px;
-		      padding: 5px;
-		      overflow: scroll;
-		      line-height: 1.5em;
-		    }
-
-		    img {
-		    	width: 300px;
-		    }
-    	</style>
-    </convert-md>
+    <div class="documentation"></div>
 	</div>
 `
 

@@ -1,15 +1,18 @@
 # TODO
 
+- [] load documentation dynamically
+- [] remove url params after init
+- [] better error messages
 - add color table
   - color
   - shade
   - mixing
-- startFill
-- endFill
+- [x] startFill
+- [x] endFill
 - [x] add aws share links
   - [] give option to share share link on slack in notification
-- [] make documentation for turtle workshop
-- [] make examples for turtle workshop
+- [x] make documentation for turtle workshop
+- [x] make examples for turtle workshop
   
 - [x] add turtle arc
   - make it faster
@@ -26,9 +29,12 @@
 - [x] add versioning
   - [] need to check if loaded version matches current
 
-- [] specify template/documentation in url param
+- [x] specify template/documentation in url param
 
-- [] clear url params
+- [x] clear url params
 - [] add previous file ids to state?
 - [] fix run on load
   - didn't address getting it to work but stopped from happening
+
+
+  http://localhost:8080/?documentation=http://localhost:8080/templates/turtle-template.md&template=http://localhost:8080/templates/turtle-template.js

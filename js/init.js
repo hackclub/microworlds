@@ -1,7 +1,13 @@
 import { events } from "./events.js";
-import { defaultProg } from "./defaultProg.js";
 import { dispatch } from "./dispatch.js";
-import { html, render, svg } from "https://unpkg.com/lit-html@2.0.1/lit-html.js";
+import { html } from "./uhtml.js";
+import { getURLPath } from "./getURLPath.js";
+
+function removeParam(key) {
+  const url = new URL(window.location);
+  url.searchParams.delete(key);
+  window.history.pushState({}, null, url);
+}
 
 export function initSandbox(templateAddress) {
 	const sandbox = document.querySelector(".iframe-sandbox");
@@ -41,25 +47,57 @@ async function loadFromS3(id) {
   return JSON.stringify(saved);
 }
 
+const DEFAULT_FILE = getURLPath("/templates/turtle-template.json");
+
 export function init(state) {
 
 	const search = window.location.search;
-	const code = new URLSearchParams(search).get("code");
-	const file = new URLSearchParams(search).get("file");
-	const vert = new URLSearchParams(search).get("vert");
-	const id = new URLSearchParams(search).get("id");
+	const params = new URLSearchParams(search);
+	const vert = params.get("vert");
+	const id = params.get("id");
+	const file = params.get("file") ?? DEFAULT_FILE;
+
+	// const template = params.get("template");
+	// const documentation = params.get("documentation");
+	// const code = params.get("code");
 
 	if (vert) document.documentElement.style.setProperty("--vertical-bar", `${vert}%`);
+
+	// if (template) {
+	// 	state.template = template;
+	// 	// removeParam("template");
+	// }
+
+	// if (documentation) {
+	// 	state.documentation = documentation;
+	// 	dispatch("SET_DOCUMENTATION", { address: documentation });
+	// 	// removeParam("documentation");
+	// }
+
+	// if (code) { // fetch code file?
+	// 	const string = state.codemirror.view.state.doc.toString();
+	// 	state.codemirror.view.dispatch({
+	// 		changes: { from: 0, to: string.length, insert: program }
+	// 	});
+	// }
 
 	dispatch("RENDER");
 	state.codemirror = document.querySelector("#code-editor");
 
-	initSandbox(state.template);
+	if (state.template !== "") initSandbox(state.template);
 
 	events(state);
 
-	if (file) { // if file then load from url
-  	
+	if (id) {
+
+		(async () => {
+			const stateString = await loadFromS3(id);
+
+			dispatch("SET_SAVE_STATE", { stateString });
+		})();
+		
+	} else { // if file then load from url
+
     fetch(file,  {mode: 'cors'})
 			.then( file => file
 			.text()
@@ -70,21 +108,6 @@ export function init(state) {
 			}));
 
 		
-	} else if (id) {
-
-		(async () => {
-			const stateString = await loadFromS3(id);
-
-			dispatch("SET_SAVE_STATE", { stateString });
-		})();
-		
-	} else { // else load default
-
-		state.codemirror.view.dispatch({
-			changes: { from: 0, insert: defaultProg.trim() }
-		});
-
-		// dispatch("RUN");
 	}
 
 	const saved = window.localStorage.getItem("live-editor-templates");
@@ -96,7 +119,7 @@ export function init(state) {
 		`});
 
 		// helpful during dev
-		// dispatch("SET_SA VE_STATE", { stateString: saved });
+		// dispatch("SET_SAVE_STATE", { stateString: saved });
 	}
 
 }
