@@ -44,12 +44,17 @@ const renderDocs = state => html`
       display: none;
     }
 
-    .docs pre,code {
+    .docs pre {
       background: lightgrey;
       border-radius: 3px;
       padding: 5px;
       overflow: scroll;
       line-height: 1.5em;
+    }
+
+    .docs code {
+      background: lightgrey;
+      border-radius: 3px;
     }
 
     .docs img {

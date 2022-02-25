@@ -31,6 +31,7 @@ const STATE = {
 	version: "0.0.1",
 };
 
+
 window.addEventListener("message", e => {
 	console.error(e.data);
 
@@ -51,6 +52,16 @@ window.addEventListener("message", e => {
 	STATE.error = true;
 	STATE.logs = [...STATE.logs, msg];
 	dispatch("RENDER");
+
+	const cmLines = document.querySelectorAll(".cm-line");
+
+	for (let i = 0; i < cmLines.length - 1; i++) {
+		if (!line || i+1 !== line) continue;
+
+		const cmLine = cmLines[i];
+
+		cmLine.style.background = "#ecb2b2";
+	}
 });
 
 
@@ -61,6 +72,13 @@ const ACTIONS = {
 	RUN(args, state) {
 		STATE.error = false;
 		STATE.logs = [];
+
+		const cmLines = document.querySelectorAll(".cm-line");
+		for (let i = 0; i < cmLines.length - 1; i++) {
+			const cmLine = cmLines[i];
+
+			cmLine.style.background = "";
+		}
 
 		const program = state.codemirror.view.state.doc.toString();
 

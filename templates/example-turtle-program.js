@@ -6,10 +6,10 @@ fillScreen("white");
 
 const t = createTurtle(w/2, h/2);
 
-t.setSize(3);
+t.setSize(241);
 
 for (let i = 0; i < 430; i += 1) {
-  t.setColor(`hsl(${0.5*i}, ${101}%, ${59}%)`)
+  t.setColor(`hsla(${25.3*i}, ${101}%, ${59}%, ${41}%)`)
   t.forward(i);
   t.right(87);
 }
