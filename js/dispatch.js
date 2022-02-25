@@ -55,7 +55,7 @@ window.addEventListener("message", e => {
 
 	const cmLines = document.querySelectorAll(".cm-line");
 
-	for (let i = 0; i < cmLines.length - 1; i++) {
+	for (let i = 0; i < cmLines.length; i++) {
 		if (!line || i+1 !== line) continue;
 
 		const cmLine = cmLines[i];
@@ -74,7 +74,7 @@ const ACTIONS = {
 		STATE.logs = [];
 
 		const cmLines = document.querySelectorAll(".cm-line");
-		for (let i = 0; i < cmLines.length - 1; i++) {
+		for (let i = 0; i < cmLines.length; i++) {
 			const cmLine = cmLines[i];
 
 			cmLine.style.background = "";

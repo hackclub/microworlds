@@ -1,8 +1,11 @@
 # TODO
 
-- [] load documentation dynamically
+- [] add intro video
+- [] document each function with picture
+- [] draw turtle
+- [x] load documentation dynamically
 - [] remove url params after init
-- [] better error messages
+- [x] better error messages
 - add color table
   - color
   - shade
