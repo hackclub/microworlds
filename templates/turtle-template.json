@@ -1,6 +1,6 @@
 {
   "name": "leo-s-test-file",
-  "documentation": "http://localhost:8080/templates/turtle-template.md",
-  "template": "http://localhost:8080/templates/turtle-template.js",
-  "programAddress": "http://localhost:8080/templates/example-turtle-program.js"
+  "documentation": "https://hackclub.github.io/live-editor-templates/templates/turtle-template.md",
+  "template": "https://hackclub.github.io/live-editor-templates/templates/turtle-template.js",
+  "programAddress": "https://hackclub.github.io/live-editor-templates/templates/example-turtle-program.js"
 }
