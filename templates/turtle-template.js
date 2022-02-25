@@ -41,6 +41,8 @@ class Turtle {
 
     this._fillArray = [];
     this._ctx = canvas.getContext("2d");
+
+    this._ctx.lineCap = "round";
   }
 
   up() {
@@ -92,17 +94,17 @@ class Turtle {
       );
       this._ctx.stroke();
 
-      if (this.strokeType === "round") {
-        const radius = this.size/2;
+      // if (this.strokeType === "round") {
+      //   const radius = this.size/2;
 
-        this._ctx.beginPath();
-        this._ctx.arc(this.location.x, this.location.y, radius, 0, Math.PI * 2, true);
-        this._ctx.fill();
+      //   this._ctx.beginPath();
+      //   this._ctx.arc(this.location.x, this.location.y, radius, -Math.PI/2, Math.PI/2, true);
+      //   this._ctx.fill();
         
-        this._ctx.beginPath();
-        this._ctx.arc(x, y, radius, 0, Math.PI * 2, true);
-        this._ctx.fill();
-      }
+      //   this._ctx.beginPath();
+      //   this._ctx.arc(x, y, radius, Math.PI/2, -Math.PI/2, true);
+      //   this._ctx.fill();
+      // }
     }
 
 
