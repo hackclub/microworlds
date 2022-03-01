@@ -46,7 +46,8 @@ async function loadFromS3(id) {
 
   return JSON.stringify(saved);
 }
-
+	
+// const DEFAULT_FILE = "http://127.0.0.1:8080/microworld-templates/turtle/test.json";
 const DEFAULT_FILE = "https://hackclub.github.io/microworld-templates/turtle/turtle-template.json";
 
 export function init(state) {
