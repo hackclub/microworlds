@@ -165,14 +165,16 @@ export function events(state) {
 	bodyListener("keydown", "", function(event) {
 		let code = event.code;
 
-    window.localStorage.setItem("live-editor-templates", dispatch("GET_SAVE_STATE"));
-    
 		// console.log(code, event);
 		if (code === "Enter" && event.shiftKey) {
 		  event.preventDefault();
 		  dispatch("RUN");
 		}
 	});
+
+	window.addEventListener("unload", () => {
+		window.localStorage.setItem("live-editor-templates", dispatch("GET_SAVE_STATE"));
+	})
 
 	addVerticalBarDrag(state, bodyListener);
 	addNumberDragging(state, bodyListener);
