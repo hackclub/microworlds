@@ -41,3 +41,5 @@
 
 
   http://localhost:8080/?documentation=http://localhost:8080/templates/turtle-template.md&template=http://localhost:8080/templates/turtle-template.js
+
+  http://127.0.0.1:8080/live-editor-templates/?file=http://127.0.0.1:8080/microworld-templates/turtle/test.json

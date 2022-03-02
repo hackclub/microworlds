@@ -94,11 +94,15 @@ const ACTIONS = {
 		// TODO: share with aws link
 		const link = await saveToS3(dispatch("GET_SAVE_STATE"));
 
+		const scrapbookLink = `https://hack.af/share?link=${link}`
+
 		copy(link);
 		dispatch("NOTIFICATION", {
 			message: html`
-				A sharing link has been copied to your clipboard. 
-				<button @click=${() => copy(link)}>Click here to recopy.</button>
+				A sharing link has been copied to your clipboard.
+				<button @click=${() => copy(link)}>Click here to recopy.</button> 
+				<br/>
+				<a target="_blank" href=${scrapbookLink}>Click here to share your project to scrapbook.</a>
 			`,
 			open: true
 		})

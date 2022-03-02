@@ -47,7 +47,6 @@ async function loadFromS3(id) {
   return JSON.stringify(saved);
 }
 	
-// const DEFAULT_FILE = "http://127.0.0.1:8080/microworld-templates/turtle/test.json";
 const DEFAULT_FILE = "https://hackclub.github.io/microworld-templates/turtle/turtle-template.json";
 
 export function init(state) {
@@ -58,29 +57,7 @@ export function init(state) {
 	const id = params.get("id");
 	const file = params.get("file") ?? DEFAULT_FILE;
 
-	// const template = params.get("template");
-	// const documentation = params.get("documentation");
-	// const code = params.get("code");
-
 	if (vert) document.documentElement.style.setProperty("--vertical-bar", `${vert}%`);
-
-	// if (template) {
-	// 	state.template = template;
-	// 	// removeParam("template");
-	// }
-
-	// if (documentation) {
-	// 	state.documentation = documentation;
-	// 	dispatch("SET_DOCUMENTATION", { address: documentation });
-	// 	// removeParam("documentation");
-	// }
-
-	// if (code) { // fetch code file?
-	// 	const string = state.codemirror.view.state.doc.toString();
-	// 	state.codemirror.view.dispatch({
-	// 		changes: { from: 0, to: string.length, insert: program }
-	// 	});
-	// }
 
 	dispatch("RENDER");
 	state.codemirror = document.querySelector("#code-editor");
@@ -99,7 +76,7 @@ export function init(state) {
 		
 	} else { // if file then load from url
 
-    fetch(file,  {mode: 'cors'})
+    fetch(file,  { mode: 'cors' })
 			.then( file => file
 			.text()
 			.then( txt => {

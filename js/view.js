@@ -58,7 +58,8 @@ const renderDocs = state => html`
     }
 
     .docs img {
-      width: 300px;
+      max-width: 300px;
+      max-height: 300px;
     }
 	</style>
 	<div class="docs hide-docs">
