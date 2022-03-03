@@ -2,7 +2,7 @@
 
 - [] add intro video
 - [] document each function with picture
-- [] draw turtle
+- [x] draw turtle
 - [x] load documentation dynamically
 - [] remove url params after init
 - [x] better error messages

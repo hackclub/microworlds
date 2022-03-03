@@ -3,6 +3,7 @@
   --background: #dbdbdb;
   --background-2: #eef4ff;
   --text-color: black;
+  --muted: #8492a6;
 }
 
 html,
@@ -46,11 +47,6 @@ body {
   height: 100%;
 }
 
-#code-editor {
-	overflow: scroll;
-  flex: 1;
-}
-
 .log {
   background: green;
   padding: 5px;
@@ -70,7 +66,7 @@ body {
 .menu {
   /*overflow: hidden;*/
   height: 30px;
-  background: grey;
+  background: var(--muted);
   display: flex;
   padding: 5px;
 }
@@ -137,12 +133,14 @@ body {
 
 #vertical-bar:hover {
   cursor: col-resize;
-  background: grey;
+  background: var(--muted);
 }
 
-.CodeMirror {
+#code-editor {
+  overflow: scroll;
+  flex: 1;
 	height: 100% !important;
-	background: #f4e6d0 !important; /* #ebd5b3 */
+	background: #e0e6ed !important; /* #f4e6d0 #ebd5b3 #e0e6ed */
 	z-index: 0;
 }
 
@@ -155,123 +153,6 @@ body {
   border: solid 1px grey;
   box-sizing: border-box;
   cursor: col-resize;
-}
-
-/* menu */
-
-.menu-choice {
-  display: grid;
-  place-content: center;
-  font: 400 13.3333px Arial;
-  border: solid 2px #7b7770;
-  border-radius: 5px;
-  text-align: center;
-  border-radius: 2px;
-  background: rgb(239, 239, 239);
-  border: rgb(118, 118, 118) 0.1px solid;
-}
-
-.menu-choice:hover {
-  background: rgb(229 225 225);
-  border: rgb(74, 74, 74) 1px solid;
-  cursor: default;
-}
-
-.menu-choices {
-  position: absolute;
-  z-index: 10;
-  bottom: 100%;
-  left: 50%;
-  transform: translate(-50%, 0);
-  visibility: hidden; /* hidden | visible */
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-}
-
-
-.expand-menu {
-  position: relative;
-}
-
-.expand-menu:hover .menu-choices {
-  visibility: visible;
-}
-
-/* examples */
-
-.examples { 
-  display: flex;
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 70%;
-  height: 80%;
-  background: var(--background);
-  border: 2px solid black;
-  padding: 15px;
-  border-radius: 10px;
-  flex-wrap: wrap;
-  align-items: flex-start;
-  justify-content: start;
-  align-content: flex-start;
-  z-index: 100;
-}
-
-.example {
-  color: var(--text-color);
-  border: 1px solid black;
-  border-radius: 5px;
-  cursor: pointer;
-  padding: 5px;
-  margin: 5px;
-  background: var(--background-2);
-}
-
-
-/*options*/
-
-.options {
-  display: flex;
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 300px;
-  height: 80%;
-  background: var(--background);
-  border: 2px solid black;
-  padding: 15px;
-  border-radius: 10px;
-  flex-wrap: nowrap;
-  align-content: center;
-  flex-direction: column;
-  z-index: 100;
-}
-
-.option {
-  display: flex;
-  justify-content: space-between;
-  margin: 5px;
-}
-
-.hide {
-  display: none;
-}
-
-.close {
-  position: fixed;
-  bottom: 10px;
-  width: 50%;
-  left: 50%;
-  transform: translate(-50%, 0);
-  border-radius: 10px;
-  border: none;
-}
-
-.close:hover {
-  opacity: .7;
 }
 
 .notification-container {

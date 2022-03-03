@@ -8264,7 +8264,7 @@
         addSpecialChars: null
       });
       if (config2.replaceTabs = !supportsTabSize())
-        config2.specialChars = new RegExp("	|" + config2.specialChars.source, UnicodeRegexpSupport);
+        config2.specialChars = new RegExp(" |" + config2.specialChars.source, UnicodeRegexpSupport);
       if (config2.addSpecialChars)
         config2.specialChars = new RegExp(config2.specialChars.source + "|" + config2.addSpecialChars.source, UnicodeRegexpSupport);
       return config2;
@@ -8356,7 +8356,7 @@
     }
     toDOM() {
       let span = document.createElement("span");
-      span.textContent = "	";
+      span.textContent = "  ";
       span.className = "cm-tab";
       span.style.width = this.width + "px";
       return span;
@@ -9668,7 +9668,7 @@
     let result = "", ts = state.tabSize;
     if (state.facet(indentUnit).charCodeAt(0) == 9)
       while (cols >= ts) {
-        result += "	";
+        result += " ";
         cols -= ts;
       }
     for (let i = 0; i < cols; i++)
@@ -10212,7 +10212,7 @@
   var deleteByChar = (target, forward, codePoint) => deleteBy(target, (pos) => {
     let {state} = target, line = state.doc.lineAt(pos), before;
     if (!forward && pos > line.from && pos < line.from + 200 && !/[^ \t]/.test(before = line.text.slice(0, pos - line.from))) {
-      if (before[before.length - 1] == "	")
+      if (before[before.length - 1] == "  ")
         return pos - 1;
       let col = countColumn(before, 0, state.tabSize), drop = col % getIndentUnit(state) || getIndentUnit(state);
       for (let i = 0; i < drop && before[before.length - 1 - i] == " "; i++)
@@ -13611,27 +13611,27 @@
 
   // ../lang-javascript/src/snippets.ts
   var snippets = [
-    snippetCompletion("function ${name}(${params}) {\n	${}\n}", {
+    snippetCompletion("function ${name}(${params}) {\n  ${}\n}", {
       label: "function",
       detail: "definition",
       type: "keyword"
     }),
-    snippetCompletion("for (let ${index} = 0; ${index} < ${bound}; ${index}++) {\n	${}\n}", {
+    snippetCompletion("for (let ${index} = 0; ${index} < ${bound}; ${index}++) {\n  ${}\n}", {
       label: "for",
       detail: "loop",
       type: "keyword"
     }),
-    snippetCompletion("for (let ${name} of ${collection}) {\n	${}\n}", {
+    snippetCompletion("for (let ${name} of ${collection}) {\n ${}\n}", {
       label: "for",
       detail: "of loop",
       type: "keyword"
     }),
-    snippetCompletion("try {\n	${}\n} catch (${error}) {\n	${}\n}", {
+    snippetCompletion("try {\n  ${}\n} catch (${error}) {\n ${}\n}", {
       label: "try",
       detail: "block",
       type: "keyword"
     }),
-    snippetCompletion("class ${name} {\n	constructor(${params}) {\n		${}\n	}\n}", {
+    snippetCompletion("class ${name} {\n  constructor(${params}) {\n    ${}\n }\n}", {
       label: "class",
       detail: "definition",
       type: "keyword"
@@ -15328,7 +15328,7 @@
   var StringQuery = class extends Query {
     constructor(search, replace, caseInsensitive) {
       super(search, replace, caseInsensitive);
-      this.unquoted = search.replace(/\\([nrt\\])/g, (_, ch) => ch == "n" ? "\n" : ch == "r" ? "\r" : ch == "t" ? "	" : "\\");
+      this.unquoted = search.replace(/\\([nrt\\])/g, (_, ch) => ch == "n" ? "\n" : ch == "r" ? "\r" : ch == "t" ? " " : "\\");
     }
     cursor(doc2, from = 0, to = doc2.length) {
       return new SearchCursor(doc2, this.unquoted, from, to, this.caseInsensitive ? (x) => x.toLowerCase() : void 0);
@@ -15970,13 +15970,12 @@
       const initState = EditorState.create({
         doc: ``,
         extensions: [
-          setup,
-          javascript()
+          setup
         ]
       });
       this.view = new EditorView({state: initState, parent: this});
       this.foldRange = foldRange(this.view);
     }
   };
-  window.customElements.define("codemirror-js", CodeMirror);
+  window.customElements.define("codemirror-plain", CodeMirror);
 })();

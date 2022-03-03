@@ -1,5 +1,6 @@
 import { html } from "./uhtml.js"
 import "./codemirror/codemirror-js.js";
+import "./codemirror/codemirror-plain.js";
 import { dispatch } from "./dispatch.js";
 
 const fileName = state => html`
