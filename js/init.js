@@ -47,7 +47,7 @@ async function loadFromS3(id) {
   return JSON.stringify(saved);
 }
 	
-const DEFAULT_FILE = "https://hackclub.github.io/microworld-templates/turtle/turtle-template.json";
+const DEFAULT_FILE = "";
 
 export function init(state) {
 
@@ -55,7 +55,7 @@ export function init(state) {
 	const params = new URLSearchParams(search);
 	const vert = params.get("vert");
 	const id = params.get("id");
-	const file = params.get("file") ?? DEFAULT_FILE;
+	let file = params.get("file") ?? DEFAULT_FILE;
 
 	if (vert) document.documentElement.style.setProperty("--vertical-bar", `${vert}%`);
 
@@ -74,7 +74,9 @@ export function init(state) {
 			dispatch("SET_SAVE_STATE", { stateString });
 		})();
 		
-	} else { // if file then load from url
+	} else if (file !== "") { // if file then load from url
+
+		if (!file.startsWith("http")) file = `https://micros.hackclub.dev/${file}/${file}.json`;
 
     fetch(file,  { mode: 'cors' })
 			.then( file => file

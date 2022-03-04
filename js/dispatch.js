@@ -23,6 +23,7 @@ const STATE = {
 	codemirror: undefined,
 	template: "",
 	documentation: "",
+	language: "javascript", // TODO: implement this, js by default
 	// examples: [],
 	notifications: [],
 	error: false,
