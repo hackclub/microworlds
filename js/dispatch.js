@@ -101,7 +101,7 @@ const ACTIONS = {
 		dispatch("NOTIFICATION", {
 			message: html`
 				A sharing link has been copied to your clipboard.
-				<button @click=${() => copy(link)}>Click here to recopy.</button> 
+				<button style="padding: 0px 10px;" @click=${() => copy(link)}>Click here to recopy.</button> 
 				<br/>
 				<a target="_blank" href=${scrapbookLink}>Click here to share your project to scrapbook.</a>
 			`,
