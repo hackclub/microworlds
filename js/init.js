@@ -95,7 +95,7 @@ export function init(state) {
 	if (saved) { // give option to load saved in notification
 		dispatch("NOTIFICATION", { message: html`
 			You have a file cached would you like to 
-			<button @click=${() => dispatch("SET_SAVE_STATE", { stateString: saved })}>load it</button>.
+			<button style="padding: 0px 10px;" @click=${() => dispatch("SET_SAVE_STATE", { stateString: saved })}>load it</button>.
 		`});
 
 		// helpful during dev

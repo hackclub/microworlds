@@ -39,6 +39,7 @@ const renderDocs = state => html`
       position: fixed;
       right: 10px;
       top: 10px;
+      padding: 0px 10px;
     }
 
     .hide-docs .close-docs {
@@ -46,16 +47,11 @@ const renderDocs = state => html`
     }
 
     .docs pre {
-      background: lightgrey;
-      border-radius: 3px;
-      padding: 5px;
       overflow: scroll;
-      line-height: 1.5em;
     }
 
     .docs code {
-      background: lightgrey;
-      border-radius: 3px;
+      white-space: break-spaces;
     }
 
     .docs img {

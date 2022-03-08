@@ -1,7 +1,7 @@
 :root {
   --vertical-bar: 60%;
   --background: #dbdbdb;
-  --background-2: #eef4ff;
+  --background-2: var(--blue);
   --text-color: black;
   --muted: #8492a6;
 }
@@ -13,6 +13,14 @@ body {
 	margin: 0px;
 	overscroll-behavior: none; /*this stops the back swipe*/
 /*	overflow: hidden;*/
+}
+
+h1, h2, h3, h4, h5, h6 {
+  margin: revert;
+}
+
+pre {
+  font-size: 14px;
 }
 
 .no-select {
@@ -73,6 +81,8 @@ body {
 
 .menu-option {
   flex: 1;
+  margin-left: 5px;
+  margin-right: 5px;
 }
 
 .menu-button {
@@ -101,6 +111,7 @@ body {
   z-index: 99;
   transform: translate(-50%, 0);
   border-radius: 5px;
+  font-size: 12px;
 }
 
 .menu-button:hover .tooltip {
@@ -165,7 +176,7 @@ body {
 
 .shared-modal {
   color: var(--text-color);
-  background: var(--background-2);
+  background: var(--snow);
   margin-bottom: 5px;
   padding: 10px;
   border: 2px solid black;
