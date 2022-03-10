@@ -1,5 +1,16 @@
 # TODO
 
+- [] scroll up on notification
+- [] redirect on share form
+- [] button for share link
+- [] remove copy
+  - [] individual line copy on click
+- [] prompts
+  - draw a square
+  - make something that reminds you of nature
+  - make something living
+  - make something you would see through a telescope
+- [] download png
 - [] add intro video
 - [] document each function with picture
 - [x] draw turtle

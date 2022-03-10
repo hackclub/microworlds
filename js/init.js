@@ -1,6 +1,6 @@
 import { events } from "./events.js";
 import { dispatch } from "./dispatch.js";
-import { html } from "./uhtml.js";
+import { html } from "../libs/uhtml.js";
 import { getURLPath } from "./getURLPath.js";
 
 function removeParam(key) {
@@ -88,6 +88,15 @@ export function init(state) {
 			}));
 
 		
+	} else { // load menu
+		const address = `https://micros.hackclub.dev/micros.json`;
+		fetch(address,  { mode: 'cors' })
+			.then( file => file
+			.json()
+			.then( json => {
+			   state.micros = json;
+			   dispatch("RENDER");
+			}));
 	}
 
 	const saved = window.localStorage.getItem("live-editor-templates");

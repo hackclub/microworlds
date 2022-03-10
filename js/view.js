@@ -1,7 +1,8 @@
-import { html } from "./uhtml.js"
-import "./codemirror/codemirror-js.js";
-import "./codemirror/codemirror-plain.js";
+import { html } from "../libs/uhtml.js"
+import "../libs/codemirror/codemirror-js.js";
+import "../libs/codemirror/codemirror-plain.js";
 import { dispatch } from "./dispatch.js";
+import { getURLPath } from "./getURLPath.js";
 
 const fileName = state => html`
 	<input
@@ -72,6 +73,39 @@ const renderDocs = state => html`
 	</div>
 `
 
+function renderMicros(state) {
+  return state.micros.length > 0 ? html`
+    <style>
+      .micros-container {
+        position: absolute;
+        left: 50%;
+        transform: translate(-50%, 0);
+        top: 25%;
+        z-index: 99;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        background: #ffffff3d;
+        padding: var(--spacing-3);
+      }
+
+      .micros-container .card {
+        margin: 5px;
+        color: var(--primary);
+        padding: var(--spacing-3);
+      }
+    </style>
+    <div class="micros-container card">
+      <h1>Pick a MicroWorld!</h1>
+      <div style="display: flex;">
+        ${state.micros.map(micro => html`
+            <a href=${getURLPath(`?file=${micro}`)} class="card">${micro}</a>
+          `)}
+      </div>
+    </div>
+  ` : ""
+}
+
 export function view(state) {
 	return html`
 		<div class="left-pane">
@@ -104,6 +138,7 @@ export function view(state) {
 		</div>
 		<div id="vertical-bar"></div>
 		${renderDocs(state)}
+    ${renderMicros(state)}
 	`
 }
 

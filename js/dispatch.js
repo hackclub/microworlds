@@ -1,8 +1,8 @@
-import { html, render, svg } from "./uhtml.js";
+import { html, render, svg } from "../libs/uhtml.js";
 import { view } from "./view.js";
 import { init, initSandbox } from "./init.js";
 import { saveToS3 } from "./saveToS3.js";
-import marked from "./marked.js";
+import marked from "../libs/marked.js";
 
 function copy(str) {
 	const inp = document.createElement('input');
@@ -30,6 +30,7 @@ const STATE = {
 	logs: [],
 	name: "name-here",
 	version: "0.0.1",
+	micros: [],
 };
 
 

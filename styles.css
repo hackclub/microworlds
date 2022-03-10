@@ -91,6 +91,7 @@ pre {
   box-sizing: border-box;
   justify-content: center;
   align-items: center;
+  overflow: hidden;
 }
 
 .menu-button:hover {
@@ -122,6 +123,7 @@ pre {
   width: calc(100% - var(--vertical-bar));
   height: 100%;
   z-index: 10;
+  background: white;
 }
 
 
