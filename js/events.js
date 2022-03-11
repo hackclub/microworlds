@@ -146,6 +146,7 @@ function addNumberDragging(state, bodyListener) {
 			selectedText = newValue;
 			dispatch("RUN");
 			pauseEvent(e);
+
 		}
 	})
 
