@@ -1,56 +1,11 @@
-# TODO
+# Microworlds are a place to discover powerful ideas!
 
-- [] scroll up on notification
-- [] redirect on share form
-- [] button for share link
-- [] remove copy
-  - [] individual line copy on click
-- [] prompts
-  - draw a square
-  - make something that reminds you of nature
-  - make something living
-  - make something you would see through a telescope
-- [] download png
-- [] add intro video
-- [] document each function with picture
-- [x] draw turtle
-- [x] load documentation dynamically
-- [] remove url params after init
-- [x] better error messages
-- add color table
-  - color
-  - shade
-  - mixing
-- [x] startFill
-- [x] endFill
-- [x] add aws share links
-  - [] give option to share share link on slack in notification
-- [x] make documentation for turtle workshop
-- [x] make examples for turtle workshop
-  
-- [x] add turtle arc
-  - make it faster
-- [x] add save
-- [x] add markdown pop-out
-- [x] add share modal
-- [x] add reload
-  - [x] file upload
-  - [x] cached
-  - [x] share links
-- [x] fix sandbox init
-- [x] redo toolbar ui
-  - [] add icons
-- [x] add versioning
-  - [] need to check if loaded version matches current
+This is Hack Club's code editor which integrates workshops, documentation, and sharing tools.
 
-- [x] specify template/documentation in url param
+To load a Microworld into the environment use the url query `file` like so: `microworld.hackclub.dev?file=microworld-name`.
 
-- [x] clear url params
-- [] add previous file ids to state?
-- [] fix run on load
-  - didn't address getting it to work but stopped from happening
+The Microworlds are available in this [repo](https://github.com/hackclub/micros).
 
+## Running Locally
 
-  http://localhost:8080/?documentation=http://localhost:8080/templates/turtle-template.md&template=http://localhost:8080/templates/turtle-template.js
-
-  http://127.0.0.1:8080/live-editor-templates/?file=http://127.0.0.1:8080/microworld-templates/turtle/test.json
+To run the Microworld editor locally just download the repo and run a server. I reccomend the npm package [live-server](https://www.npmjs.com/package/live-server).
