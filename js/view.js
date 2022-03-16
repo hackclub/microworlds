@@ -102,6 +102,7 @@ function renderMicros(state) {
             <a href=${getURLPath(`?file=${micro}`)} class="card">${micro}</a>
           `)}
       </div>
+      <h4 style="margin: var(--spacing-3)">Or create your own <a href="https://github.com/hackclub/micros" target="_blank">here</a>.</h4>
     </div>
   ` : ""
 }
