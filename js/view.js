@@ -135,7 +135,7 @@ export function view(state) {
 			</div>
 		</div>
 		<div class="right-pane">
-			<iframe class="iframe-sandbox" sandbox="allow-scripts allow-same-origin"></iframe>
+			<iframe class="iframe-sandbox" sandbox></iframe>
 		</div>
 		<div id="vertical-bar"></div>
 		${renderDocs(state)}
