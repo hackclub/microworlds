@@ -1,0 +1,6 @@
+{
+  "name": "pixeldough",
+  "documentation": "https://micros.hackclub.dev/pixeldough/docs.md",
+  "template": "https://micros.hackclub.dev/pixeldough/engine.js",
+  "programAddress": "https://micros.hackclub.dev/pixeldough/default.js"
+}

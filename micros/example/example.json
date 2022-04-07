@@ -1,0 +1,6 @@
+{
+  "name": "example",
+  "documentation": "https://micros.hackclub.dev/example/docs.md",
+  "template": "https://micros.hackclub.dev/example/engine.js",
+  "programAddress": "https://micros.hackclub.dev/example/default.js"
+}

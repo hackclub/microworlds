@@ -1,7 +1,9 @@
 import { html, render, svg } from "../libs/uhtml.js";
 import { view } from "./view.js";
-import { init, initSandbox } from "./init.js";
+import { init } from "./init.js";
+import { initSandbox } from "./initSandbox.js";
 import { saveToS3 } from "./saveToS3.js";
+import { getURLPath } from "./getURLPath.js";
 import marked from "../libs/marked.js";
 
 function copy(str) {
@@ -21,8 +23,7 @@ function showShared() {
 
 const STATE = {
 	codemirror: undefined,
-	template: "",
-	documentation: "",
+	micro: "",
 	language: "javascript", // TODO: implement this, js by default
 	// examples: [],
 	notifications: [],
@@ -116,53 +117,65 @@ const ACTIONS = {
 			name: state.name,
 			version: state.version,
 			program: string,
-			documentation: state.documentation,
-			template: state.template,
+			micro: state.micro
 		})
 
 		return stateString;
 	},
-	SET_SAVE_STATE({ stateString }, state) {
-		const stateObj = JSON.parse(stateString);
-
+	SET_SAVE_STATE: async ({ stateObj }, state) => {
 		console.log("setting state to", stateObj);
 
-		const { name, program, documentation, template, version, programAddress } = stateObj;
+		const { name, micro, program, version } = stateObj;
 
-		state.name = name ?? state.name;
+		state.micro = micro ?? state.micro;
 		// state.version = version ?? state.version; // shouldn't set version, should prompt to switch
-		state.template = template; 
+		const microURL = micro.startsWith("http") ? micro : getURLPath(`../micros/${micro}/${micro}.json`);
 
-		initSandbox(state.template);
+		const microText = await fetch(microURL);
+		const microObj = await microText.json();
 
-		if (programAddress) { // link supersedes program text
-			fetch(programAddress)
-				.then(res => res.text())
-				.then(program => {
-					const string = state.codemirror.view.state.doc.toString();
-					state.codemirror.view.dispatch({
-						changes: { from: 0, to: string.length, insert: program }
-					});
-				});
-		} else {
+		if ("documentation" in microObj && !micro.startsWith("http")) 
+			microObj["documentation"] = getURLPath(`micros/${micro}/${microObj["documentation"]}`)
+			  
+		if ("template" in microObj && !micro.startsWith("http")) 
+			microObj["template"] = getURLPath(`micros/${micro}/${microObj["template"]}`)
+			  
+		if ("default" in microObj && !micro.startsWith("http")) 
+			microObj["default"] = getURLPath(`micros/${micro}/${microObj["default"]}`)
+		
+		state.name = name || microObj.name || state.name;
+
+		if (microObj.template) {
+			const res = await fetch(microObj.template);
+			const text = await res.text();
+
+			initSandbox(text);
+		}
+
+		if (program) {
 			const string = state.codemirror.view.state.doc.toString();
 			state.codemirror.view.dispatch({
 				changes: { from: 0, to: string.length, insert: program }
 			});
+		} else if (microObj.default) { // link supersedes program text
+			const res = await fetch(microObj.default);
+			const text = await res.text();
+			const string = state.codemirror.view.state.doc.toString();
+			state.codemirror.view.dispatch({
+				changes: { from: 0, to: string.length, insert: text }
+			});
 		}
 
+		if (microObj.documentation) {
+			const res = await fetch(microObj.documentation);
+			const text = await res.text();
+			const convertedMd = marked(text);
+			const doc = document.querySelector(".documentation");
+	  	doc.innerHTML = convertedMd;
+		}
 
-		dispatch("SET_DOCUMENTATION", { address: documentation });
-	},
-	SET_DOCUMENTATION: async ({ address }, state) => {
-		state.documentation = address;
-		const res = await fetch(address);
-		const text = await res.text();
-		const convertedMd = marked(text);
-		const doc = document.querySelector(".documentation");
-  	doc.innerHTML = convertedMd;
+		dispatch("RENDER");
 
-  	dispatch("RENDER")
 	},
 	DOWNLOAD: function(args, state) {
 		const string = state.codemirror.view.state.doc.toString();

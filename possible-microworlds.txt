@@ -1,0 +1,29 @@
+  // big pixel world
+  // probabilistic programming
+  // voxel 
+  // noise
+  // fermi estimation
+  // signed distance
+  // grammer
+  // recursion
+  // fractals
+
+  // small coding environment to understand and play with a concept
+
+
+
+ways to eval javascript
+
+eval
+new Func
+esm tagged template
+send to iframe
+stick in html set iframe src
+ - blob it
+
+btoa
+
+setting iframe content
+sandbox.contentWindow.document.write
+srcDoc
+src
