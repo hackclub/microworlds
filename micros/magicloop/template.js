@@ -59,11 +59,13 @@ document.body.innerHTML = `
 function init(t) {
   t.arc(103, 4)
   t.forward(9)
-  t.arc(-208, 5)
+  t.arc(-206, 5)
   t.forward(9)
   t.arc(105, 4)
   
   t.thicken(2)
+
+  t.strokeWidth(0)
   
   return t;
 }
