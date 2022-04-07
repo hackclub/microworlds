@@ -167,6 +167,8 @@ const svgEl = document.querySelector("svg");
 export default function evaluate(program) {
   const func = new Function("createPattern", "drawPattern", program);
 
+  pathStrings = [];
+
   func(createPattern, drawPattern);
 
   container.innerHTML = pathStrings.join("");
