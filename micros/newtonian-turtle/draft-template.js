@@ -56,7 +56,6 @@ class Turtle {
     this.color = "black";
     this.timer = null;
     this.dt = 0;
-    this.accTime = 0;
 
     this._ctx = canvas.getContext("2d");
     this._ctx.lineCap = "round";
@@ -152,29 +151,20 @@ class Turtle {
   // }
 
   onTimer(func, time = 1) {
-    this.timer = [ func, time ];
+    this.timer = [ func, 1 ];
 
     return this;
   }
 
-  update(timeStep) {
+  update(timeStep, frame) {
     // should speed be in pixels per a second or pixels per update
    this._forward(this.speed*timeStep/1000);
-
-   this.accTime += timeStep;
    this.dt += timeStep;
-   // let tempTime = this.accTime;
 
-   while (this.timer && this.dt > this.timer[1]*1000) {
-     // console.log(this.dt, timeStep, this.time[1]*1000);
-     this.timer[0](this.accTime);
-     this.dt -= this.timer[1]*1000;
-   }
-
-   // while (this.timer && tempTime > this.timer[1]*1000) {
-   //   this.timer[0](this.accTime);
-   //   tempTime -= this.timer[1]*1000;
-   // } 
+   if (this.timer && this.dt > this.timer[1]) {
+     this.timer[0]();
+     this.dt = 0;
+   } 
 
    // if (this._onUpdate) this._onUpdate(frame);
 
@@ -203,6 +193,7 @@ function setCanvasSize(width, height) {
 function createTurtle(x, y) {
   const t = new Turtle(canvas);
   t.up()._goTo(x, y).down();
+  console.log("Create", t, x, y);
   turtles.push(t);
   return t;
 }
@@ -263,7 +254,14 @@ document
 //   .querySelector(".download")
 //   .addEventListener("click", download);
 
+let msBetweenUpdates = 1000/60;
+let frame = 0;
 let timeScale = 1;
+
+const setUpdatesPerSecond = n => {
+  n = Math.max(n, 0.1);
+  msBetweenUpdates = 1000/n;
+}
 
 const setTimeScale = n => {
   timeScale = n;
@@ -271,12 +269,38 @@ const setTimeScale = n => {
 
 function start() {
   let last = 0;
+  let timeAcc = 0;
 
   function loop(ts) {
-    const elapsedMs = Math.min(3000, ts - last)*timeScale;
+    const elapsedMs = Math.min(3000, ts - last)/timeScale;
+    timeAcc += elapsedMs;
     last = ts;
 
-    turtles.forEach(t => t.update(elapsedMs));
+    // render
+
+    // if (ts - lastPrint > 2000) {
+    //   console.log(turtles);
+    //   lastPrint = ts;
+    // }
+
+    // for (let i = 0; i < Math.floor(timeAcc/msBetweenUpdates); i++) {
+
+    //   turtles.forEach(t => t.update(msBetweenUpdates, frame));
+
+    //   frame += 1;
+    // }
+
+    // timeAcc = timeAcc % msBetweenUpdates;
+
+    // while (timeAcc > msBetweenUpdates) {
+    //   turtles.forEach(t => t.update(elapsedMs, frame));
+
+    //   timeAcc -= msBetweenUpdates;
+    //   frame += 1;
+    // }
+
+    turtles.forEach(t => t.update(elapsedMs, frame));
+    // frame += 1;
 
     // while to cap frame rate
 
@@ -293,15 +317,17 @@ start();
 // when code is sent this function is run
 export default function evaluate(program) {
 
-  const func = new Function("setCanvasSize", "fillScreen", "createTurtle", "setTimeScale", program);
+  const func = new Function("setCanvasSize", "fillScreen", "createTurtle", "setUpdatesPerSecond", "setTimeScale", program);
 
   turtles = [];
+  msBetweenUpdates = 1000/60;
+  frame = 0;
   timeScale = 1;
   lastProgram = program;
 
   fillScreen("white");
 
-  func(setCanvasSize, fillScreen, createTurtle, setTimeScale);
+  func(setCanvasSize, fillScreen, createTurtle, setUpdatesPerSecond, setTimeScale);
 
   // turtles.forEach(drawTurtle);
 
