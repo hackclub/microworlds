@@ -48,49 +48,55 @@ const norm = vec => {
 class Turtle {
   constructor(canvas) {
     this.drawing = true;
-    this.location = { x: 0, y: 0 };
+    this.x = 0;
+    this.y = 0;
     this.angle = 0;
     this.speed = 0;
     this.size = 1;
     this.color = "black";
-    this.strokeType = "round";
 
-    this._fillArray = [];
     this._ctx = canvas.getContext("2d");
-
     this._ctx.lineCap = "round";
   }
 
-  goto(x, y) {
+  up() {
+    this.drawing = false;
+
+    return this;
+  }
+
+  down() {
+    this.drawing = true;
+
+    return this;
+  }
+
+  _goTo(x, y) {
     
     if (this.drawing) {
       this._ctx.lineWidth = this.size === 0 ? 0.000000001 : this.size;
       this._ctx.strokeStyle = this.color;
       this._ctx.fillStyle = this.color; 
 
-      const dx = x - this.location.x;
-      const dy = y - this.location.y;
-
-      const normVec = norm([ dx, dy ]);
-      const backtrack = this.strokeType === "flat" ? -5 : 0;
-      
       this._ctx.beginPath();
-      this._ctx.moveTo(
-        this.location.x + normVec[0] * backtrack, 
-        this.location.y + normVec[1] * backtrack
-      )
-      this._ctx.lineTo(
-        x, 
-        y
-      );
+      this._ctx.moveTo(this.x, this.y)
+      this._ctx.lineTo(x, y);
       this._ctx.stroke();
-
     }
 
-
-    this.location = { x, y };
-    if (this.drawing) this._fillArray.push(this.location);
+    this.x = x;
+    this.y = y;
     
+    return this;
+  }
+
+  _forward(distance) {
+    const a = this.angle/180 * Math.PI;
+    const x = this.x + distance * Math.cos(a);
+    const y = this.y + distance * Math.sin(a);
+
+    this._goTo(x, y);
+
     return this;
   }
 
@@ -125,7 +131,29 @@ class Turtle {
   }
 
   distanceTo(otherTurtle) {
+    const dx = Math.abs(this.x-otherTurtle.x);
+    const dy = Math.abs(this.y-otherTurtle.y);
+    return Math.sqrt(dx**2 + dy**2);
+  }
+
+  changeSpeed(ds) {
+    this.speed += ds;
+
     return this;
+  }
+
+  onUpdate(func) {
+    this._onUpdate = func;
+
+    return this;
+  }
+
+  update(timestep, frame) {
+     this._forward(this.speed*timestep/1000);
+
+     if (this._onUpdate) this._onUpdate(frame);
+
+     return this;
   }
 
   
@@ -149,7 +177,8 @@ function setCanvasSize(width, height) {
 
 function createTurtle(x, y) {
   const t = new Turtle(canvas);
-  t.up().goto(x, y).down();
+  t.up()._goTo(x, y).down();
+  console.log("Create", t, x, y);
   turtles.push(t);
   return t;
 }
@@ -160,8 +189,8 @@ function fillScreen(color) {
 }
 
 function drawTurtle(t) {
-  const startX = t.location.x;
-  const startY = t.location.y;
+  const startX = t.x;
+  const startY = t.y;
 
   ctx.save();
   ctx.fillStyle = "green";
@@ -210,19 +239,55 @@ document
 //   .querySelector(".download")
 //   .addEventListener("click", download);
 
+function start() {
+  let last = 0;
+  let timeAcc = 0;
+  let frame = 0;
+
+  const updateFrequency = 1000/60;
+
+  function loop(ts) {
+    const elapsedMs = Math.min(3000, ts - last);
+    timeAcc += elapsedMs;
+    last = ts;
+
+    // if (ts - lastPrint > 2000) {
+    //   console.log(turtles);
+    //   lastPrint = ts;
+    // }
+
+    while (timeAcc > updateFrequency) {
+
+      turtles.forEach(t => t.update(updateFrequency, frame));
+
+      frame += 1;
+      timeAcc -= updateFrequency;
+    }
+
+    window.requestAnimationFrame(loop)
+  }
+
+  requestAnimationFrame(loop)
+}
+
+start();
+
+
 // whole template is run on initialization
 // when code is sent this function is run
 export default function evaluate(program) {
+
   const func = new Function("setCanvasSize", "fillScreen", "createTurtle", program);
-  fillScreen("white");
+
   turtles = [];
   lastProgram = program;
 
+  fillScreen("white");
+
   func(setCanvasSize, fillScreen, createTurtle);
 
-  if (drawTurtles) {
-    turtles.forEach(drawTurtle);
-  }
+  // turtles.forEach(drawTurtle);
+
 }
 
 

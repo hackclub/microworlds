@@ -1,6 +1,6 @@
 {
   "name": "pixeldough",
   "documentation": "docs.md",
-  "template": "engine.js",
+  "template": "template.js",
   "default": "default.js"
 }

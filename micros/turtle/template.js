@@ -78,7 +78,7 @@ class Turtle {
     return this;
   }
 
-  goto(x, y) {
+  goTo(x, y) {
     
     if (this.drawing) {
       this._ctx.lineWidth = this.size === 0 ? 0.000000001 : this.size;
@@ -156,7 +156,7 @@ class Turtle {
     const x = last.x + distance * Math.cos(a);
     const y = last.y + distance * Math.sin(a);
 
-    this.goto(x, y);
+    this.goTo(x, y);
 
     return this;
   }
@@ -234,7 +234,7 @@ function setCanvasSize(width, height) {
 
 function createTurtle(x, y) {
   const t = new Turtle(canvas);
-  t.up().goto(x, y).down();
+  t.up().goTo(x, y).down();
   turtles.push(t);
   return t;
 }

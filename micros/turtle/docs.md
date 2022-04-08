@@ -37,7 +37,7 @@ t.arc(32, 40);
 t.setSize(3);
 
  // go to x 50 and y 200
-t.goto(50, 200);
+t.goTo(50, 200);
 
 // set the angle to 90 degrees
 t.setAngle(90);
@@ -136,7 +136,7 @@ t.setSize(0);
 
 function rect(x, y, w, h) {
   t.up();
-  t.goto(x - w/2, y - h/2);
+  t.goTo(x - w/2, y - h/2);
   t.down();
   t.setAngle(0);
   t.forward(w);
@@ -177,7 +177,7 @@ const random = (min, max) => Math.random()*(max-min) + min;
 
 for (let i = 0; i < 12; i += 1) {
   t.up();
-  t.goto(random(5, 278), random(33, 265));
+  t.goTo(random(5, 278), random(33, 265));
   t.down();
   t.forward(0);
 }
@@ -200,7 +200,7 @@ t.setSize(0);
 
 function rect(x, y, w, h) {
   t.up();
-  t.goto(x - w/2, y - h/2);
+  t.goTo(x - w/2, y - h/2);
   t.down();
   t.setAngle(0);
   t.forward(w);
@@ -237,7 +237,7 @@ const t = createTurtle(w/2, h/2);
 
 for (let i = 65; i > 1; i--) {
   t.up();
-  t.goto(w/2, h/2);
+  t.goTo(w/2, h/2);
   t.down();
   t.setSize(i*4);
   t.setColor(`hsla(${67-i}, ${100}%, ${70}%, ${35}%)`);
