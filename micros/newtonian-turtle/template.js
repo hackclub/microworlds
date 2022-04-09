@@ -145,26 +145,8 @@ class Turtle {
     return this;
   }
 
-
-  onTimer(func, time = 1) {
-    this.timer = [ func, time ];
-
-    return this;
-  }
-
   update(timeStep) {
-    // should speed be in pixels per a second or pixels per update
    this._forward(this.speed*timeStep/1000);
-
-   this.accTime += timeStep;
-   this.dt += timeStep;
-
-   while (this.timer && this.dt > this.timer[1]*1000) {
-     this.timer[0](this.accTime);
-     this.dt -= this.timer[1]*1000;
-   }
-
-   return this;
   }
 
   
@@ -176,10 +158,10 @@ class TimeKeeper {
     this.timers = [];
   }
 
-  addTimer(func, time = 1) {
+  addTimer(fn, time = 1) {
     const key = Date.now();
 
-    this.timers[key] = { f: func, interval: time*1000, dt: 0 };
+    this.timers[key] = { fn, interval: time*1000, dt: 0 };
 
     return key;
   }
@@ -204,7 +186,7 @@ class TimeKeeper {
       timer.dt += timeStep;
 
       while (timer.dt > timer.interval) {
-        timer.f(this.accTime);
+        timer.fn(this.accTime);
         timer.dt -= timer.interval;
       }
     }
@@ -212,7 +194,7 @@ class TimeKeeper {
 }
 
 const timeKeeper = new TimeKeeper(); 
-const createTimer = (f, t = 1) => timeKeeper.addTimer(f, t);
+const createTimer = (fn, t = 1) => timeKeeper.addTimer(fn, t);
 const destroyTimer = k => timeKeeper.removeTimer(k);
 
 // STATE
@@ -270,18 +252,6 @@ function drawTurtle(t) {
   ctx.restore();
 }
 
-function download() {
-  const canvas = document.querySelector("canvas");
-
-  // create temporary link  
-  const link = document.createElement('a');
-  link.download = 'turtleArt.png';
-  link.href = canvas.toDataURL();
-  console.log(link);
-  link.click();
-  link.delete;
-}
-
 document
   .querySelector(".draw-turtles")
   .addEventListener("input", () => {
@@ -289,10 +259,6 @@ document
 
     evaluate(lastProgram);
   })
-
-// document
-//   .querySelector(".download")
-//   .addEventListener("click", download);
 
 let timeScale = 1;
 
