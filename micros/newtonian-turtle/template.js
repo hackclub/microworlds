@@ -145,11 +145,6 @@ class Turtle {
     return this;
   }
 
-  // onUpdate(func) {
-  //   this._onUpdate = func;
-
-  //   return this;
-  // }
 
   onTimer(func, time = 1) {
     this.timer = [ func, time ];
@@ -163,26 +158,62 @@ class Turtle {
 
    this.accTime += timeStep;
    this.dt += timeStep;
-   // let tempTime = this.accTime;
 
    while (this.timer && this.dt > this.timer[1]*1000) {
-     // console.log(this.dt, timeStep, this.time[1]*1000);
      this.timer[0](this.accTime);
      this.dt -= this.timer[1]*1000;
    }
-
-   // while (this.timer && tempTime > this.timer[1]*1000) {
-   //   this.timer[0](this.accTime);
-   //   tempTime -= this.timer[1]*1000;
-   // } 
-
-   // if (this._onUpdate) this._onUpdate(frame);
 
    return this;
   }
 
   
 }
+
+class TimeKeeper {
+  constructor() {
+    this.accTime = 0;
+    this.timers = [];
+  }
+
+  addTimer(func, time = 1) {
+    const key = Date.now();
+
+    this.timers[key] = { f: func, interval: time*1000, dt: 0 };
+
+    return key;
+  }
+
+  removeTimer(key) {
+    if (key in this.timers) {
+      delete this.timers[key];
+    }
+  }
+
+  clear() {
+    for (const key in this.timers) {
+      delete this.timers[key];
+    }
+  }
+
+  update(timeStep) {
+    this.accTime += timeStep;
+
+    for (const key in this.timers) {
+      const timer = this.timers[key];
+      timer.dt += timeStep;
+
+      while (timer.dt > timer.interval) {
+        timer.f(this.accTime);
+        timer.dt -= timer.interval;
+      }
+    }
+  }
+}
+
+const timeKeeper = new TimeKeeper(); 
+const createTimer = (f, t = 1) => timeKeeper.addTimer(f, t);
+const destroyTimer = k => timeKeeper.removeTimer(k);
 
 // STATE
 let turtles = [];
@@ -269,6 +300,7 @@ const setTimeScale = n => {
   timeScale = n;
 }
 
+
 function start() {
   let last = 0;
 
@@ -277,6 +309,7 @@ function start() {
     last = ts;
 
     turtles.forEach(t => t.update(elapsedMs));
+    timeKeeper.update(elapsedMs);
 
     // while to cap frame rate
 
@@ -293,15 +326,31 @@ start();
 // when code is sent this function is run
 export default function evaluate(program) {
 
-  const func = new Function("setCanvasSize", "fillScreen", "createTurtle", "setTimeScale", program);
+  const func = new Function(
+    "setCanvasSize", 
+    "fillScreen", 
+    "createTurtle", 
+    "setTimeScale", 
+    "createTimer", 
+    "destroyTimer",
+    program
+  );
 
   turtles = [];
   timeScale = 1;
+  timeKeeper.clear();
   lastProgram = program;
 
   fillScreen("white");
 
-  func(setCanvasSize, fillScreen, createTurtle, setTimeScale);
+  func(
+    setCanvasSize, 
+    fillScreen, 
+    createTurtle, 
+    setTimeScale, 
+    createTimer,
+    destroyTimer
+  );
 
   // turtles.forEach(drawTurtle);
 
