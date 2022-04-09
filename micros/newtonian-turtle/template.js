@@ -265,8 +265,7 @@ let timeScale = 1;
 const setTimeScale = n => {
   timeScale = n;
 }
-
-
+  
 function start() {
   let last = 0;
 
@@ -279,7 +278,7 @@ function start() {
 
     // while to cap frame rate
 
-    window.requestAnimationFrame(loop)
+    requestAnimationFrame(loop)
   }
 
   requestAnimationFrame(loop)
