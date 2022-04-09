@@ -39,7 +39,7 @@ export function init(state) {
 		(async () => {
 			const stateString = await loadFromS3(id);
 
-			dispatch("SET_SAVE_STATE", { stateString });
+			dispatch("SET_SAVE_STATE", { stateObj: JSON.parse(stateString) });
 		})();
 		
 	} else if (file !== "") {
@@ -56,7 +56,7 @@ export function init(state) {
 	if (saved) { // give option to load saved in notification
 		dispatch("NOTIFICATION", { message: html`
 			You have a file cached would you like to 
-			<button style="padding: 0px 10px;" @click=${() => dispatch("SET_SAVE_STATE", { stateString: saved })}>load it</button>.
+			<button style="padding: 0px 10px;" @click=${() => dispatch("SET_SAVE_STATE", { stateObj: JSON.parse(saved) })}>load it</button>.
 		`});
 
 		// helpful during dev

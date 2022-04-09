@@ -29,21 +29,16 @@ document.body.innerHTML = `
 
   <main>
     <canvas></canvas>
-    <div class="options">
-      <div>
-        <span>draw turtles:</span>
-        <input type="checkbox" checked="true" class="draw-turtles"></input>
-      </div>
-      <!-- <button class="download">download image</button> -->
-    </div>
   </main>
 `
 
-const norm = vec => {
-  const mag = Math.sqrt(vec[0]**2 + vec[1]**2);
-
-  return [vec[0]/mag, vec[1]/mag];
-}
+// <div class="options">
+//   <div>
+//     <span>draw turtles:</span>
+//     <input type="checkbox" checked="true" class="draw-turtles"></input>
+//   </div>
+//   <!-- <button class="download">download image</button> -->
+// </div>
 
 class Turtle {
   constructor(canvas) {
@@ -159,7 +154,7 @@ class TimeKeeper {
   }
 
   addTimer(fn, time = 1) {
-    const key = Date.now();
+    const key = Math.random().toString(12);
 
     this.timers[key] = { fn, interval: time*1000, dt: 0 };
 
@@ -254,13 +249,13 @@ function drawTurtle(t) {
   ctx.restore();
 }
 
-document
-  .querySelector(".draw-turtles")
-  .addEventListener("input", () => {
-    drawTurtles = !drawTurtles;
+// document
+//   .querySelector(".draw-turtles")
+//   .addEventListener("input", () => {
+//     drawTurtles = !drawTurtles;
 
-    evaluate(lastProgram);
-  })
+//     evaluate(lastProgram);
+//   })
 
 let timeScale = 1;
 

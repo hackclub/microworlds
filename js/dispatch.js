@@ -124,6 +124,8 @@ const ACTIONS = {
 	},
 	SET_SAVE_STATE: async ({ stateObj }, state) => {
 		console.log("setting state to", stateObj);
+		
+		if (!stateObj) return;
 
 		const { name, micro, program, version } = stateObj;
 
