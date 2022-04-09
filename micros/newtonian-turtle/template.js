@@ -176,6 +176,8 @@ class TimeKeeper {
     for (const key in this.timers) {
       delete this.timers[key];
     }
+
+    this.accTime = 0;
   }
 
   update(timeStep) {
@@ -265,7 +267,7 @@ let timeScale = 1;
 const setTimeScale = n => {
   timeScale = n;
 }
-  
+
 function start() {
   let last = 0;
 
