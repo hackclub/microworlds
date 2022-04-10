@@ -51,6 +51,8 @@ destroyTimer(timer);
 
 **Draw a straight line:**
 
+![Screen Recording 2022-04-10 at 12 17 04 PM](https://user-images.githubusercontent.com/27078897/162630398-3fec4e24-5444-4550-8809-89c8fcc4091f.gif)
+
 ```
 const w = 300;
 const h = 300;
@@ -65,6 +67,8 @@ t.addSpeed(50);
 ```
 
 **Draw a square:**
+
+![Screen Recording 2022-04-10 at 12 27 04 PM](https://user-images.githubusercontent.com/27078897/162630416-b1eba8f3-eac8-454a-86e4-70ef4b39b34e.gif)
 
 ```
 const w = 300;
@@ -85,6 +89,8 @@ createTimer(() => {
 
 **Draw a circle:**
 
+![Screen Recording 2022-04-10 at 12 17 55 PM](https://user-images.githubusercontent.com/27078897/162630433-38a5d245-636b-42ed-9d4f-67766503a758.gif)
+
 ```
 const w = 300;
 const h = 300;
@@ -103,6 +109,8 @@ createTimer(() => {
 ```
 
 **Draw a spiral:**
+
+![Screen Recording 2022-04-10 at 12 19 24 PM](https://user-images.githubusercontent.com/27078897/162630485-4026d484-0687-44ac-9838-7613b7d2520c.gif)
 
 ```
 const w = 300;
