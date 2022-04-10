@@ -9,7 +9,9 @@ Let's play around with laws of motion by drawing with some agents who can only h
 setCanvasSize(300, 300);
 
 // adjust the time scale for the animation
-// 1 is real time, less than 1 is slower, greater than 1 is faster
+// 1 is real time
+// less than 1 is slower
+// greater than 1 is faster
 setTimeScale(1);
 
 // set the background
@@ -36,7 +38,8 @@ t.setSize(3);
 // set the angle to 90 degrees
 t.setAngle(90);
 
-// create a timer which will loop a function every 1/30 seconds
+// create a timer which will loop a function 
+// every 1/30 seconds
 createTimer(timePassed => {
   t.addSpeed(10);
 }, 1/30);
