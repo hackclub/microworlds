@@ -38,7 +38,7 @@ function readFile(file) {
   reader.onloadend = event => {
     let text = reader.result;
 
-    dispatch("SET_SAVE_STATE", { stateString: text });
+    dispatch("SET_SAVE_STATE", { stateObj: JSON.parse(text) });
   };
 }
 

@@ -1,0 +1,6 @@
+{
+  "name": "newts",
+  "documentation": "docs.md",
+  "template": "template.js",
+  "default": "default.js"
+}

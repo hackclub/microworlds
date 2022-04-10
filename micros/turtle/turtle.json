@@ -1,0 +1,6 @@
+{
+  "name": "turtle-default",
+  "documentation": "docs.md",
+  "template": "template.js",
+  "default": "default.js"
+}

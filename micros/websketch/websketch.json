@@ -1,0 +1,6 @@
+{
+  "name": "websketch-default",
+  "documentation": "docs.md",
+  "template": "engine.js",
+  "programAddress": "default.js"
+}
