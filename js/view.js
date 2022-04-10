@@ -96,7 +96,7 @@ function renderMicros(state) {
       }
     </style>
     <div class="micros-container card">
-      <h1>Pick a MicroWorld!</h1>
+      <h1>Pick a Microworld!</h1>
       <div style="display: flex;">
         ${state.micros.map(micro => html`
             <a href=${getURLPath(`?file=${micro}`)} class="card">${micro}</a>
