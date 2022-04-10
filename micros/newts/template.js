@@ -134,7 +134,7 @@ class Turtle {
     return Math.sqrt(dx**2 + dy**2);
   }
 
-  changeSpeed(ds) {
+  addSpeed(ds) {
     this.speed += ds;
 
     return this;
@@ -183,7 +183,7 @@ class TimeKeeper {
       timer.dt += timeStep;
 
       while (timer.dt > timer.interval) {
-        timer.fn(this.accTime);
+        timer.fn(this.accTime/1000);
         timer.dt -= timer.interval;
       }
     }

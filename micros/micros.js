@@ -1,4 +1,5 @@
 export const micros = [
   "turtle",
-  "pixeldough"
+  "pixeldough",
+  "newts"
 ]
