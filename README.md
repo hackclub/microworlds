@@ -11,8 +11,8 @@ A microworld is a single page code editor environment. Each microworld loads in 
 To run the microworld editor locally just download the repo and run a server. I reccomend the npm package [live-server](https://www.npmjs.com/package/live-server).
 
 1. Clone this repository
-   - `git clone https://github.com/hackclub/micros.git && cd micros`
-1. Install `live-server` to handle CORS
+   - `git clone https://github.com/hackclub/microworlds.git && cd microworlds`
+1. Install `live-server`
    - `npm install -g live-server`
 1. Run server
    - `live-server`
