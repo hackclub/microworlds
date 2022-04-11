@@ -1,15 +1,10 @@
-const pattern = createPattern();
+const pattern = createPattern(5, "green");
 console.log(pattern)
 
-for (let i = 0; i< 10; i++) {
-  pattern.knit("blue");
+for (let i = 0; i< 19; i++) {
+  if (i%2===0) pattern.knit("blue");
+  else pattern.purl("red");
 }
-
-for (let i = 0; i< 10; i++) {
-  pattern.purl("red");
-}
-
-
 
 const drawn = drawPattern(pattern);
 
